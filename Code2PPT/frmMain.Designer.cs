@@ -40,6 +40,7 @@
 			this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.rtxCode = new System.Windows.Forms.RichTextBox();
+			this.chkAutoRemoveIndent = new System.Windows.Forms.CheckBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
@@ -69,6 +70,7 @@
 			this.flowLayoutPanel1.Controls.Add(this.label3);
 			this.flowLayoutPanel1.Controls.Add(this.cmbTabSpaces);
 			this.flowLayoutPanel1.Controls.Add(this.chkAlwaysOnTop);
+			this.flowLayoutPanel1.Controls.Add(this.chkAutoRemoveIndent);
 			this.flowLayoutPanel1.Controls.Add(this.btnHelp);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
@@ -114,7 +116,7 @@
 			this.cmbFontSize.FormattingEnabled = true;
 			this.cmbFontSize.Location = new System.Drawing.Point(206, 3);
 			this.cmbFontSize.Name = "cmbFontSize";
-			this.cmbFontSize.Size = new System.Drawing.Size(121, 25);
+			this.cmbFontSize.Size = new System.Drawing.Size(60, 25);
 			this.cmbFontSize.TabIndex = 1;
 			this.cmbFontSize.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
 			// 
@@ -122,7 +124,7 @@
 			// 
 			this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(333, 7);
+			this.label3.Location = new System.Drawing.Point(272, 7);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(66, 17);
 			this.label3.TabIndex = 6;
@@ -133,18 +135,16 @@
 			this.cmbTabSpaces.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cmbTabSpaces.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbTabSpaces.FormattingEnabled = true;
-			this.cmbTabSpaces.Location = new System.Drawing.Point(405, 3);
+			this.cmbTabSpaces.Location = new System.Drawing.Point(344, 3);
 			this.cmbTabSpaces.Name = "cmbTabSpaces";
-			this.cmbTabSpaces.Size = new System.Drawing.Size(130, 25);
+			this.cmbTabSpaces.Size = new System.Drawing.Size(60, 25);
 			this.cmbTabSpaces.TabIndex = 7;
 			// 
 			// chkAlwaysOnTop
 			// 
 			this.chkAlwaysOnTop.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.chkAlwaysOnTop.AutoSize = true;
-			this.chkAlwaysOnTop.Checked = true;
-			this.chkAlwaysOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkAlwaysOnTop.Location = new System.Drawing.Point(541, 5);
+			this.chkAlwaysOnTop.Location = new System.Drawing.Point(410, 5);
 			this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
 			this.chkAlwaysOnTop.Size = new System.Drawing.Size(75, 21);
 			this.chkAlwaysOnTop.TabIndex = 3;
@@ -155,7 +155,7 @@
 			// btnHelp
 			// 
 			this.btnHelp.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.btnHelp.Location = new System.Drawing.Point(622, 5);
+			this.btnHelp.Location = new System.Drawing.Point(624, 5);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(20, 20);
 			this.btnHelp.TabIndex = 8;
@@ -165,13 +165,28 @@
 			// 
 			// rtxCode
 			// 
+			this.rtxCode.AcceptsTab = true;
 			this.rtxCode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rtxCode.Location = new System.Drawing.Point(3, 38);
 			this.rtxCode.Name = "rtxCode";
 			this.rtxCode.Size = new System.Drawing.Size(678, 420);
 			this.rtxCode.TabIndex = 4;
 			this.rtxCode.Text = "";
+			this.rtxCode.WordWrap = false;
 			this.rtxCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtxCode_KeyDown);
+			// 
+			// chkAutoRemoveIndent
+			// 
+			this.chkAutoRemoveIndent.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.chkAutoRemoveIndent.AutoSize = true;
+			this.chkAutoRemoveIndent.Checked = true;
+			this.chkAutoRemoveIndent.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkAutoRemoveIndent.Location = new System.Drawing.Point(491, 5);
+			this.chkAutoRemoveIndent.Name = "chkAutoRemoveIndent";
+			this.chkAutoRemoveIndent.Size = new System.Drawing.Size(127, 21);
+			this.chkAutoRemoveIndent.TabIndex = 9;
+			this.chkAutoRemoveIndent.Text = "自动删除多余缩进 ";
+			this.chkAutoRemoveIndent.UseVisualStyleBackColor = true;
 			// 
 			// frmMain
 			// 
@@ -184,7 +199,6 @@
 			this.MinimumSize = new System.Drawing.Size(700, 300);
 			this.Name = "frmMain";
 			this.Text = "Code 2 PPT";
-			this.TopMost = true;
 			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
@@ -206,6 +220,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.ComboBox cmbTabSpaces;
 		private System.Windows.Forms.Button btnHelp;
+		private System.Windows.Forms.CheckBox chkAutoRemoveIndent;
 
 
 	}
