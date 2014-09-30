@@ -85,7 +85,6 @@ namespace Code2PPT
 
 			return oldRtf.Replace("\\tab", spaces);
 		}
-
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cmbFontName.Text != "" && cmbFontSize.Text != "")
@@ -126,9 +125,11 @@ namespace Code2PPT
 
 				Clipboard.SetData(DataFormats.Rtf, rtxCode.Rtf.Trim());
 			}
-			else if (ModifierKeys == Keys.Control && e.KeyCode == Keys.C) //复制操作
+			//复制操作
+			else if (ModifierKeys == Keys.Control && e.KeyCode == Keys.C)
 			{
-				Clipboard.SetData(DataFormats.Rtf, rtxCode.SelectedRtf); //将选中部分的RTF代码发送到剪贴板
+				Clipboard.SetData(DataFormats.Rtf, rtxCode.SelectedRtf);//将选中部分的RTF代码发送到剪贴板
+				Clipboard.SetData(DataFormats.Rtf, rtxCode.SelectedRtf);
 			}
 			//Tab
 			else if (ModifierKeys == Keys.None && e.KeyCode == Keys.Tab)
