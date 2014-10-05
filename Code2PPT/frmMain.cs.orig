@@ -23,18 +23,23 @@ namespace Code2PPT
 
 		private void frmMain_Load(object sender, EventArgs e)
 		{
-			BindFontNameDropDownList();
+			//字体下拉菜单
+			InstalledFontCollection installedFontCollection = new InstalledFontCollection();
+			foreach (FontFamily fontFamily in installedFontCollection.Families)
+			{
+				cmbFontName.Items.Add(fontFamily.Name);
+			}
+			cmbFontName.Text = "Consolas"; //默认选中Consolas字体
+			//
 
-			BindFontSizeDropDownList();
+			//字号下拉菜单
+			for (int i = 6; i < 60; i++)
+			{
+				cmbFontSize.Items.Add(i);
+				cmbFontSize.Text = "10"; //默认选中10号字
+			}
+			//
 
-			BindTabSpacesDropDownList();
-		}
-
-		/// <summary>
-		/// 绑定Tab空格数下拉菜单
-		/// </summary>
-		private void BindTabSpacesDropDownList()
-		{
 			//Tab空格下拉菜单
 			cmbTabSpaces.Items.Add("不替换");
 			for (int i = 1; i <= 16; i++)
@@ -45,35 +50,6 @@ namespace Code2PPT
 			//
 		}
 
-		/// <summary>
-		/// 绑字号下拉菜单
-		/// </summary>
-		private void BindFontSizeDropDownList()
-		{
-			//字号下拉菜单
-			for (int i = 6; i < 60; i++)
-			{
-				cmbFontSize.Items.Add(i);
-				cmbFontSize.Text = "10"; //默认选中10号字
-			}
-			//
-		}
-
-		/// <summary>
-		/// 绑定字体下拉菜单
-		/// </summary>
-		private void BindFontNameDropDownList()
-		{
-			//字体下拉菜单
-			InstalledFontCollection installedFontCollection = new InstalledFontCollection();
-			foreach (FontFamily fontFamily in installedFontCollection.Families)
-			{
-				cmbFontName.Items.Add(fontFamily.Name);
-			}
-			cmbFontName.Text = "Consolas"; //默认选中Consolas字体
-			//
-		}
-
 		public void ChangeFont(string fontName, int fontSize)
 		{
 			rtxCode.SelectAll();
@@ -81,14 +57,25 @@ namespace Code2PPT
 			rtxCode.Select(0, 0);
 		}
 
+<<<<<<< Updated upstream
 		/// <summary>
 		///	将Enter硬回车（段落）替换为软回车（Shift+Enter）
 		/// </summary>
 		/// <param name="oldRtf"></param>
 		/// <returns></returns>
+=======
+		public void ChangeFont(string fontName, int fontSize)
+		{
+			rtxCode.SelectAll();
+			rtxCode.SelectionFont = new Font(fontName, fontSize);
+			rtxCode.Select(0, 0);
+		}
+
+		//将Enter硬回车（段落）替换为软回车（Shift+Enter）
+>>>>>>> Stashed changes
 		public string GetChangeEnter2ShfitEnterRtf(string oldRtf)
 		{
-			//将硬回车（\\pard）替换为软回车（\\line）
+			//似乎要在\\line后加一个空格
 			return oldRtf.Replace("\\pard", "\\line").Replace("\\par", "\\line");
 		}
 
@@ -98,7 +85,7 @@ namespace Code2PPT
 		/// <param name="oldRtf"></param>
 		/// <param name="spaceOfTab"></param>
 		/// <returns></returns>
-		public string GetTabToSpaceRtf(string oldRtf, int spaceOfTab)
+		public string GetChangeTab2SpaceRtf(string oldRtf, int spaceOfTab)
 		{
 			string spaces = "";
 
@@ -128,42 +115,18 @@ namespace Code2PPT
 		private void rtxCode_KeyDown(object sender, KeyEventArgs e)
 		{
 			string rtf = "";
-			string plainText = "";
 
-			
-
-			//粘贴操作
-			if (ModifierKeys == Keys.Control && e.KeyCode == Keys.V)
+			if (ModifierKeys == Keys.Control && e.KeyCode == Keys.V) //粘贴操作
 			{
 				//得到剪贴板中的RTF文本（之前复制的）
-				try
-				{
-					if (Clipboard.ContainsData(DataFormats.Rtf))
-					{
-						rtf = Clipboard.GetData(DataFormats.Rtf).ToString();
-					}
 
-					if (Clipboard.ContainsData(DataFormats.Text))
-					{
-						plainText = Clipboard.GetData(DataFormats.Text).ToString();
-					}
-				}
-				catch (Exception exception)
+				if (Clipboard.ContainsData(DataFormats.Rtf))
 				{
-					throw new Exception(exception.Message);
+					rtf = Clipboard.GetData(DataFormats.Rtf).ToString().Trim();
 				}
-
-			
-				
 
 				//替换掉所有的硬回车
 				rtf = GetChangeEnter2ShfitEnterRtf(rtf);
-
-				//若自动移除缩进复选框选上，自动移除多余的缩进
-				if (chkAutoRemoveIndent.Checked)
-				{
-					rtf = GetIndentRemoveRtf(rtf, plainText);
-				}
 
 				//将文本显示（仍带有Tab缩进）
 				rtxCode.Rtf = rtf;
@@ -171,82 +134,38 @@ namespace Code2PPT
 				//更改字体为程序设定字体
 				ChangeFont(cmbFontName.Text, Int32.Parse(cmbFontSize.Text));
 
-				//if (cmbTabSpaces.SelectedIndex != 0)
-				//{
-				//	rtf = GetTabToSpaceRtf(rtf, Int32.Parse(cmbTabSpaces.Text));
-				//}
-				
-				Clipboard.SetData(DataFormats.Rtf, rtf.Trim());
-
-				//取消掉系统自带的粘贴操作
-				e.SuppressKeyPress = true;
-
+				Clipboard.SetData(DataFormats.Rtf, rtxCode.Rtf.Trim());
 			}
 			//复制操作
 			else if (ModifierKeys == Keys.Control && e.KeyCode == Keys.C)
 			{
-				Clipboard.SetData(DataFormats.Rtf, rtxCode.SelectedRtf);//将选中部分的RTF代码发送到剪贴板
-
+<<<<<<< Updated upstream
+				Clipboard.SetData(DataFormats.Rtf, rtxCode.SelectedRtf); //将选中部分的RTF代码发送到剪贴板
 			}
 			//Tab
 			else if (ModifierKeys == Keys.None && e.KeyCode == Keys.Tab)
 			{
-				int rowIndex;
-				
-				string tabString = GetRtfTabString(rtxCode.Rtf);
-
-				//得到当前光标所在行号
-				rowIndex = rtxCode.GetLineFromCharIndex(rtxCode.SelectionStart);
-
-				//rtxCode.Select(rtxCode.GetFirstCharIndexFromLine(rowIndex), rtxCode.Lines[rowIndex].Length);
-
-				//当有选中文本的情况下，对所有选中文本增加缩进
-				if (rtxCode.SelectedText.Length != 0)
-				{
-					string[] selectedRtfLines = SplitString(rtxCode.SelectedRtf, "\\line");
-
-					for (int i = 0; i < selectedRtfLines.Length; i++)
-					{
-						selectedRtfLines[i] = selectedRtfLines[i].Insert(selectedRtfLines[i].IndexOf(tabString), tabString);
-					}
-
-					rtxCode.SelectedRtf = string.Join("\\line", selectedRtfLines).Trim();
-				}
-
-				//else
-				//{
-					
-				//}
-
-				//rtxCode.SelectionStart = rtxCode.GetFirstCharIndexFromLine(rowIndex);
-
-				//if (chkAutoRemoveIndent.Checked)
-				//{
-				//	rtf = GetIndentRemoveRtf(rtf, plainText);
-				//}
-
-				//rtxCode.Rtf = rtf;
-				
+				//先得到文本框中的文本
+				rtf = rtxCode.Rtf;
+				rtf = this.GetChangeIndentRtf(rtf, true);
+				rtxCode.Rtf = rtf;
 			}
 			//Shift + Tab
 			else if (ModifierKeys == Keys.Shift && e.KeyCode == Keys.Tab)
 			{
 				//先得到文本框中的文本
-				//rtf = rtxCode.Rtf;
-				//rtf = this.GetChangeIndentRtf(rtf, false);
+				rtf = rtxCode.Rtf;
+				rtf = this.GetChangeIndentRtf(rtf, false);
 
-				//rtxCode.Rtf = rtf;
+				rtxCode.Rtf = rtf;
 			}
-
-			//取消系统的按键命令
-			//e.SuppressKeyPress = true; 
 
 			//if (cmbTabSpaces.SelectedIndex != 0)
 			//{
 			//	//rtf = GetChangeTab2SpaceRtf(rtf, Convert.ToInt32(cmbTabSpaces.Text));
 			//}
 
-			
+			e.SuppressKeyPress = true; //取消系统的按键命令
 		}
 
 		/// <summary>
@@ -257,7 +176,7 @@ namespace Code2PPT
 		/// <returns>修改缩进后的文本</returns>
 		private string GetChangeIndentRtf(string rtf, bool increase)
 		{
-			string[] rtfLines = SplitString(rtf, "\\line");
+			string[] rtfLines;
 
 
 			int startLineNumber = 1;
@@ -265,14 +184,18 @@ namespace Code2PPT
 			if (increase == true)
 			{
 				//在每行最前面加上一个缩进
-				//for (int i = startLineNumber; i < rtfLines.Length; i++)
-				//{
-				//	rtfLines[i] = "\\tab" + rtfLines[i];
-				//}
+				for (int i = startLineNumber; i < rtfLines.Length; i++)
+				{
+					rtfLines[i] = "\\tab" + rtfLines[i];
+				}
 			}
 			else
 			{
 
+=======
+				//将选中部分的RTF代码发送到剪贴板
+				Clipboard.SetData(DataFormats.Rtf, rtxCode.SelectedRtf);
+>>>>>>> Stashed changes
 			}
 
 			//将字符串数组重新拼接，分隔符为换行
@@ -354,39 +277,26 @@ namespace Code2PPT
 		}
 
 		/// <summary>
-		/// 移除所有的多余缩进
+		/// 
 		/// </summary>
-		/// <param name="rtf">RTF文本</param>
-		/// <param name="plainText">纯文本</param>
+		/// <param name="rtf"></param>
 		/// <returns></returns>
-		public string GetIndentRemoveRtf(string rtf, string plainText)
+		public string GetIndentRemoveRtf(string rtf)
 		{
 			int minTabCount = Int32.MaxValue;
 
 			//以换行为分割单位
 			string[] rtfLines = SplitString(rtf, "\\line");
-			string[] plainTextLines = SplitString(plainText, "\n");
-			//string[] rtfLines = SplitString(rtf, "\\line");
 
-			string rtfTabString = "";
-
-
-			rtfTabString = GetRtfTabString(rtf);
-
-			//计算最少的缩进占的Tab数目
-			for (int i = 0; i < plainTextLines.Length; i++)
+			for (int i = 0; i < rtfLines.Length; i++)
 			{
 				//tongji 
-				if (plainTextLines[i].Trim() == "")
+				if (rtfLines[i].Trim() == "")
 				{
 					continue;
 				}
 
-				//统计当前行的缩进Tab数
-				int currentLineTabCount = 0;
-
-				//plainText 中的Tab字符一定是 \t
-				currentLineTabCount = SubStringCount(plainTextLines[i], "\t");
+				int currentLineTabCount = this.SubStringCount(rtfLines[i], "\\tab");
 
 				if (currentLineTabCount < minTabCount)
 				{
@@ -394,62 +304,16 @@ namespace Code2PPT
 				}
 			}
 
-			for (int i = rtfLines.Length - plainTextLines.Length; i < rtfLines.Length; i++)
+			for (int i = 0; i < rtfLines.Length; i++)
 			{
 				for (int j = 0; j < minTabCount; j++)
 				{
-					if (rtfLines[i].Contains(rtfTabString))
+					if (rtfLines[i].Contains("\\tab"))
 					{
-						rtfLines[i] = rtfLines[i].Remove(rtfLines[i].IndexOf(rtfTabString), rtfTabString.Length);
+						rtfLines[i] = rtfLines[i].Remove(rtfLines[i].IndexOf("\\tab"), 4);
 					}
 				}
 			}
-
-			//将字符串数组重新拼接，分隔符为换行
-			return string.Join("\\line", rtfLines).Trim();
-		}
-
-		/// <summary>
-		/// 判断RTF中用于表示Tab键的字符串
-		/// </summary>
-		/// <param name="rtf">需要判断的RTF文本</param>
-		/// <returns></returns>
-		private string GetRtfTabString(string rtf)
-		{
-			string rtfTabString = "";
-			
-			//判断当前RTF的Tab字符
-			if (rtf.Contains("\t"))
-			{
-				rtfTabString = "\t";
-			}
-			else if (rtf.Contains("\\tab"))
-			{
-				rtfTabString = "\\tab";
-			}
-
-			return rtfTabString;
-		}
-
-		private void rtxCode_KeyPress(object sender, KeyPressEventArgs e)
-		{
-		}
-
-		private void rtxCode_KeyUp(object sender, KeyEventArgs e)
-		{
-			//当在某行按下Tab后，自动去掉所有代码的多余缩进
-			if (e.Modifiers == Keys.None && e.KeyCode == Keys.Tab)
-			{
-				if (chkAutoRemoveIndent.Checked)
-				{
-					rtxCode.Rtf = GetIndentRemoveRtf(rtxCode.Rtf, rtxCode.Text);
-				}
-			}
-		}
-
-		private void rtxCode_TextChanged(object sender, EventArgs e)
-		{
-			
 		}
 	}
 }

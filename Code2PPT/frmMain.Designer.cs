@@ -38,9 +38,9 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.cmbTabSpaces = new System.Windows.Forms.ComboBox();
 			this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
+			this.chkAutoRemoveIndent = new System.Windows.Forms.CheckBox();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.rtxCode = new System.Windows.Forms.RichTextBox();
-			this.chkAutoRemoveIndent = new System.Windows.Forms.CheckBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
@@ -152,6 +152,19 @@
 			this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
 			this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
+			// chkAutoRemoveIndent
+			// 
+			this.chkAutoRemoveIndent.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.chkAutoRemoveIndent.AutoSize = true;
+			this.chkAutoRemoveIndent.Checked = true;
+			this.chkAutoRemoveIndent.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkAutoRemoveIndent.Location = new System.Drawing.Point(491, 5);
+			this.chkAutoRemoveIndent.Name = "chkAutoRemoveIndent";
+			this.chkAutoRemoveIndent.Size = new System.Drawing.Size(127, 21);
+			this.chkAutoRemoveIndent.TabIndex = 9;
+			this.chkAutoRemoveIndent.Text = "自动删除多余缩进 ";
+			this.chkAutoRemoveIndent.UseVisualStyleBackColor = true;
+			// 
 			// btnHelp
 			// 
 			this.btnHelp.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -166,6 +179,7 @@
 			// rtxCode
 			// 
 			this.rtxCode.AcceptsTab = true;
+			this.rtxCode.AutoWordSelection = true;
 			this.rtxCode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rtxCode.Location = new System.Drawing.Point(3, 38);
 			this.rtxCode.Name = "rtxCode";
@@ -173,20 +187,10 @@
 			this.rtxCode.TabIndex = 4;
 			this.rtxCode.Text = "";
 			this.rtxCode.WordWrap = false;
+			this.rtxCode.TextChanged += new System.EventHandler(this.rtxCode_TextChanged);
 			this.rtxCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtxCode_KeyDown);
-			// 
-			// chkAutoRemoveIndent
-			// 
-			this.chkAutoRemoveIndent.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.chkAutoRemoveIndent.AutoSize = true;
-			this.chkAutoRemoveIndent.Checked = true;
-			this.chkAutoRemoveIndent.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkAutoRemoveIndent.Location = new System.Drawing.Point(491, 5);
-			this.chkAutoRemoveIndent.Name = "chkAutoRemoveIndent";
-			this.chkAutoRemoveIndent.Size = new System.Drawing.Size(127, 21);
-			this.chkAutoRemoveIndent.TabIndex = 9;
-			this.chkAutoRemoveIndent.Text = "自动删除多余缩进 ";
-			this.chkAutoRemoveIndent.UseVisualStyleBackColor = true;
+			this.rtxCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtxCode_KeyPress);
+			this.rtxCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.rtxCode_KeyUp);
 			// 
 			// frmMain
 			// 
